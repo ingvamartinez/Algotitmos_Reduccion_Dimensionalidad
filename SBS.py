@@ -3,6 +3,10 @@ from itertools import combinations
 import numpy as np
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.datasets import load_wine
+from sklearn.preprocessing import StandardScaler
 
 class SBS():
     """Clase SBS"""
@@ -39,15 +43,15 @@ class SBS():
             self.indices_= subsets[best]
             self.subsets_.append(self.indices_)
             dim -= 1
-            
+
             self.scores_.append(scores[best])
         self.k_score_ = self.scores_[-1]
         return self
-    
+
     def transform(self,X):
         """ Transform"""
         return X[:,self.indices_]
-    
+
     def _calc_score(self,X_train,y_train,X_test,y_test, indices):
         """Score"""
         self.estimator.fit(X_train[:, indices],y_train)
@@ -55,10 +59,7 @@ class SBS():
         score = self.scoring(y_test,y_pred)
         return score
     
-import matplotlib.pyplot as plt
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.datasets import load_wine
-from sklearn.preprocessing import StandardScaler
+
 """KNN con SBS"""
 
 wine=load_wine()
